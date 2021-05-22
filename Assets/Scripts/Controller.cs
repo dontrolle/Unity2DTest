@@ -15,6 +15,8 @@ public class Controller : MonoBehaviour
     MouseInput mouseInput;
     private Vector3 destination;
 
+    LayerMask unitLayerMask;
+
     private void Awake()
     {
         mouseInput = new MouseInput();
@@ -36,6 +38,7 @@ public class Controller : MonoBehaviour
         destination = SelectedUnit.transform.position;
         mouseInput.Mouse.RightClick.performed += _ => OnRightClick();
         mouseInput.Mouse.LeftClick.performed += _ => OnLeftClick();
+        unitLayerMask = LayerMask.GetMask("Units");
     }
 
     private void OnLeftClick()
@@ -43,7 +46,7 @@ public class Controller : MonoBehaviour
         // select unit
         (Vector2 mousePosition, _) = GetMousePosition();
 
-        Collider2D colliderHit = Physics2D.OverlapPoint(mousePosition);
+        Collider2D colliderHit = Physics2D.OverlapPoint(mousePosition, unitLayerMask);
 
         // did we click on a unit?
 
