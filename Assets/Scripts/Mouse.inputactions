@@ -6,7 +6,7 @@
             "id": "07737096-4b7e-4bf0-936b-21bf9fb50028",
             "actions": [
                 {
-                    "name": "MouseClick",
+                    "name": "RightClick",
                     "type": "Button",
                     "id": "4e86527e-af1a-4458-9292-aaa64a6997f5",
                     "expectedControlType": "Button",
@@ -20,6 +20,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "LeftClick",
+                    "type": "Button",
+                    "id": "88aa66cb-d88b-444a-b0fc-23507dcc3dff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -30,7 +38,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseClick",
+                    "action": "RightClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -42,6 +50,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "630dbbfb-98bd-4ef7-918c-d4c78b89ec0e",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
