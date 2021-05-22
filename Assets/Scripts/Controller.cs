@@ -10,9 +10,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private float movementSpeed;
 
     public Tilemap map;
-    public GameObject SelectedUnit;
-
-    MouseInput mouseInput;
+    private GameObject SelectedUnit;
+    private MouseInput mouseInput;
     private Vector3 destination;
 
     LayerMask unitLayerMask;
@@ -35,7 +34,6 @@ public class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        destination = SelectedUnit.transform.position;
         mouseInput.Mouse.RightClick.performed += _ => OnRightClick();
         mouseInput.Mouse.LeftClick.performed += _ => OnLeftClick();
         unitLayerMask = LayerMask.GetMask("Units");
