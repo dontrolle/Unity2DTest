@@ -46,6 +46,9 @@ public class Controller : MonoBehaviour
 
         Collider2D colliderHit = Physics2D.OverlapPoint(mouseWorldPosition, unitLayerMask);
 
+        // signal deselect of possible current selected unit
+        SelectedUnit?.GetComponent<UnitBehavior>().OnDeselect();
+
         // did we click on a unit?
 
         // if not, set SelectedUnit to null
@@ -54,8 +57,9 @@ public class Controller : MonoBehaviour
             return;
         }
 
-        // else, select it, and set destination to current location of gameobject
+        // else, select it, signal it, and set destination to current location of gameobject
         SelectedUnit = colliderHit.gameObject;
+        SelectedUnit.GetComponent<UnitBehavior>().OnSelect();
         destination = SelectedUnit.transform.position;
     }
 

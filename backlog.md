@@ -1,6 +1,6 @@
 # Backlog
 
-* Outline selected unit
+* ~~Outline or otherwise mark selected unit~~
 * Select more than one unit
 * Drag-select
 * Sensible placement (offset somehow from one another), when moving more than one unit
