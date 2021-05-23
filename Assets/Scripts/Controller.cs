@@ -67,7 +67,7 @@ public class Controller : MonoBehaviour
 
             (Vector2 mousePosition, Vector3Int gridPosition) = GetMousePosition();
 
-            // make sure we are clicking a cell
+            // make sure we are clicking within a cell
             if (map.HasTile(gridPosition))
             {
                 destination = mousePosition;
