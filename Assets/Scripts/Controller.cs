@@ -42,9 +42,9 @@ public class Controller : MonoBehaviour
     private void OnLeftClick()
     {
         // select unit
-        (Vector2 mousePosition, _) = GetMousePosition();
+        (_, Vector2 mouseWorldPosition, _) = GetMousePosition();
 
-        Collider2D colliderHit = Physics2D.OverlapPoint(mousePosition, unitLayerMask);
+        Collider2D colliderHit = Physics2D.OverlapPoint(mouseWorldPosition, unitLayerMask);
 
         // did we click on a unit?
 
@@ -64,13 +64,12 @@ public class Controller : MonoBehaviour
         // move selected unit, if any
         if (SelectedUnit != null)
         {
+            (Vector2 mousePosition, Vector2 mouseWorldPosition, Vector3Int gridPosition) = GetMousePosition();
 
-            (Vector2 mousePosition, Vector3Int gridPosition) = GetMousePosition();
-
-            // make sure we are clicking within a cell
-            if (map.HasTile(gridPosition))
+            // make sure we are clicking (i) inside the camera viewport and (ii) within a cell
+            if (Camera.main.pixelRect.Contains(mousePosition) && map.HasTile(gridPosition))
             {
-                destination = mousePosition;
+                destination = mouseWorldPosition;
             }
 
             //Debug.Log($"Unit: {SelectedUnit.transform.position.x},{SelectedUnit.transform.position.y}");
@@ -83,15 +82,16 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private (Vector2 mousePosition, Vector3Int gridPosition) GetMousePosition()
+    private (Vector2 mousePosition, Vector2 mouseWorldPosition, Vector3Int gridPosition) GetMousePosition()
     {
-        var mousePosition = Camera.main.ScreenToWorldPoint(mouseInput.Mouse.MousePosition.ReadValue<Vector2>());
-        var gridPosition = map.WorldToCell(mousePosition);
+        var mousePosition = mouseInput.Mouse.MousePosition.ReadValue<Vector2>();
+        var mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        var gridPosition = map.WorldToCell(mouseWorldPosition);
 
         //Debug.Log($"mouse: {mousePosition.x},{mousePosition.y}");
         //Debug.Log($"grid: {gridPosition.x},{gridPosition.y}");
 
-        return (mousePosition, gridPosition);
+        return (mousePosition, mouseWorldPosition, gridPosition);
 
     }
 
