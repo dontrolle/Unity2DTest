@@ -41,6 +41,14 @@ public class @MouseInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LeftClickHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""e38e1735-6ff8-4530-9ba5-ab85a82eabe5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -76,6 +84,17 @@ public class @MouseInput : IInputActionCollection, IDisposable
                     ""action"": ""LeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1be0ce27-922d-4c8a-bb16-bd8a9f3f4b4f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=0.15)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClickHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -87,6 +106,7 @@ public class @MouseInput : IInputActionCollection, IDisposable
         m_Mouse_RightClick = m_Mouse.FindAction("RightClick", throwIfNotFound: true);
         m_Mouse_MousePosition = m_Mouse.FindAction("MousePosition", throwIfNotFound: true);
         m_Mouse_LeftClick = m_Mouse.FindAction("LeftClick", throwIfNotFound: true);
+        m_Mouse_LeftClickHold = m_Mouse.FindAction("LeftClickHold", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,6 +159,7 @@ public class @MouseInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Mouse_RightClick;
     private readonly InputAction m_Mouse_MousePosition;
     private readonly InputAction m_Mouse_LeftClick;
+    private readonly InputAction m_Mouse_LeftClickHold;
     public struct MouseActions
     {
         private @MouseInput m_Wrapper;
@@ -146,6 +167,7 @@ public class @MouseInput : IInputActionCollection, IDisposable
         public InputAction @RightClick => m_Wrapper.m_Mouse_RightClick;
         public InputAction @MousePosition => m_Wrapper.m_Mouse_MousePosition;
         public InputAction @LeftClick => m_Wrapper.m_Mouse_LeftClick;
+        public InputAction @LeftClickHold => m_Wrapper.m_Mouse_LeftClickHold;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -164,6 +186,9 @@ public class @MouseInput : IInputActionCollection, IDisposable
                 @LeftClick.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftClick;
                 @LeftClick.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftClick;
                 @LeftClick.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftClick;
+                @LeftClickHold.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftClickHold;
+                @LeftClickHold.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftClickHold;
+                @LeftClickHold.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnLeftClickHold;
             }
             m_Wrapper.m_MouseActionsCallbackInterface = instance;
             if (instance != null)
@@ -177,6 +202,9 @@ public class @MouseInput : IInputActionCollection, IDisposable
                 @LeftClick.started += instance.OnLeftClick;
                 @LeftClick.performed += instance.OnLeftClick;
                 @LeftClick.canceled += instance.OnLeftClick;
+                @LeftClickHold.started += instance.OnLeftClickHold;
+                @LeftClickHold.performed += instance.OnLeftClickHold;
+                @LeftClickHold.canceled += instance.OnLeftClickHold;
             }
         }
     }
@@ -186,5 +214,6 @@ public class @MouseInput : IInputActionCollection, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
+        void OnLeftClickHold(InputAction.CallbackContext context);
     }
 }

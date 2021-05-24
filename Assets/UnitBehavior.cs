@@ -6,13 +6,20 @@ public class UnitBehavior : MonoBehaviour
 {
     public Color SelectedTintColor;
     private SpriteRenderer spriteRenderer;
-    private Color defaultColor;
 
-    // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        defaultColor = spriteRenderer.color;
+    }
+
+    private void OnEnable()
+    {
+        References.PlayerUnits.Add(this.gameObject);
+    }
+
+    private void OnDisable()
+    {
+        References.PlayerUnits.Remove(this.gameObject);
     }
 
     public void OnSelect()
