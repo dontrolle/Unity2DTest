@@ -11,9 +11,8 @@ public class Controller : MonoBehaviour
     [SerializeField] private float movementSpeed;
 
     public Tilemap map;
-    private readonly List<GameObject> SelectedUnits = new List<GameObject>();
+    private List<(GameObject, Vector3)> SelectedUnits = new List<(GameObject, Vector3)>();
     private MouseInput mouseInput;
-    private Vector3 destination;
     private Vector2 lastLeftClickStartedAt;
 
     LayerMask unitLayerMask;
@@ -50,7 +49,7 @@ public class Controller : MonoBehaviour
 
     private void DeSelectAllSelectedUnits()
     {
-        foreach (var unit in SelectedUnits)
+        foreach (var (unit,_) in SelectedUnits)
         {
             unit.GetComponent<UnitBehavior>().OnDeselect();
         }
@@ -82,7 +81,7 @@ public class Controller : MonoBehaviour
             }
 
             // else, select it, signal it, and set destination to current location of gameobject
-            SelectedUnits.Add(colliderHit.gameObject);
+            SelectedUnits.Add((colliderHit.gameObject, colliderHit.transform.position));
         }
         else
         {
@@ -95,15 +94,12 @@ public class Controller : MonoBehaviour
             Collider2D[] colliderHits = Physics2D.OverlapAreaAll(lastLeftClickStartedAt, mouseWorldPosition, unitLayerMask);
 
             // add to selected
-            SelectedUnits.AddRange(colliderHits.Select(c2d => c2d.gameObject));
+            SelectedUnits.AddRange(colliderHits.Select(c2d => (c2d.gameObject, c2d.transform.position)));
         }
 
-        foreach(var selectedUnit in SelectedUnits)
+        foreach(var (selectedUnit,_) in SelectedUnits)
         {
             selectedUnit.gameObject.GetComponent<UnitBehavior>().OnSelect();
-
-            // TODO we need several destinations
-            destination = selectedUnit.transform.position;
         }
     }
 
@@ -125,7 +121,12 @@ public class Controller : MonoBehaviour
             if (Camera.main.pixelRect.Contains(mousePosition) && map.HasTile(gridPosition))
             {
                 // TODO Each unit should have it's own destination
-                destination = mouseWorldPosition;
+                for (int i = 0; i < SelectedUnits.Count; i++)
+                {
+                    var unit = SelectedUnits[i];
+                    unit.Item2 = mouseWorldPosition;
+                    SelectedUnits[i] = unit;
+                }
             }
 
             //Debug.Log($"Unit: {SelectedUnit.transform.position.x},{SelectedUnit.transform.position.y}");
@@ -156,7 +157,7 @@ public class Controller : MonoBehaviour
     {
         if (SelectedUnits.Count > 0)
         {
-            foreach(var unit in SelectedUnits)
+            foreach(var (unit, destination) in SelectedUnits)
             {
                 if(Vector3.Distance(unit.transform.position, destination) > 0.1f)
                 {
