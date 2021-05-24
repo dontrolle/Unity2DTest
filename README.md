@@ -8,7 +8,7 @@ Including
 
 * [setup of a few tile palettes](https://docs.unity3d.com/Manual/Tilemap-Palette.html)
 * two [tilemap](https://docs.unity3d.com/Manual/Tilemap-Painting.html) layers, one of which is used for collisions
-* mouse-based select (left-click) and move (right-click) of several units - using the [new Unity input system](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/QuickStartGuide.html)
+* mouse-based select (left-click), drag-select (left-click hold and drag), and move (right-click) of several units - using the [new Unity input system](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/QuickStartGuide.html)
 
 ## Attributions
 
