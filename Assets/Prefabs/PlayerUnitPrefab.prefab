@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce442625a847c549859a38e37d02640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 2
   SelectedTintColor: {r: 0.6320754, g: 0.36927083, b: 0.27071908, a: 1}
 --- !u!1 &3805696372408250627
 GameObject:
