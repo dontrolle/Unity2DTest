@@ -12,8 +12,9 @@ public class Controller : MonoBehaviour
     private List<GameObject> SelectedUnits = new List<GameObject>();
     private MouseInput mouseInput;
     private Vector2 lastLeftClickStartedAt;
-
     LayerMask unitLayerMask;
+    public RectTransform SelectionBox;
+    private bool mouseHeld = false;
 
     private void Awake()
     {
@@ -52,6 +53,8 @@ public class Controller : MonoBehaviour
 
     private void OnLeftClickCancelled()
     {
+        mouseHeld = false;
+
         (_, Vector2 mouseWorldPosition, _) = GetMousePosition();
 
         DeSelectAllSelectedUnits();
@@ -92,6 +95,8 @@ public class Controller : MonoBehaviour
     private void OnLeftClickStarted()
     {
         (_, lastLeftClickStartedAt, _) = GetMousePosition();
+
+        mouseHeld = true;
     }
 
     private void OnRightClickPerformed()
@@ -104,7 +109,8 @@ public class Controller : MonoBehaviour
             // make sure we are clicking (i) inside the camera viewport and (ii) within a cell
             if (Camera.main.pixelRect.Contains(mousePosition) && map.HasTile(gridPosition))
             {
-                // TODO: Each unit should have it's own destination
+                // TODO: Each unit should be assigned it's own offset destination
+                //       Or is it naturally fixed, when units stop when blocked?
                 foreach (var unit in SelectedUnits)
                 {
                     unit.GetComponent<UnitBehavior>().Destination = mouseWorldPosition;
@@ -124,5 +130,45 @@ public class Controller : MonoBehaviour
         var gridPosition = map.WorldToCell(mouseWorldPosition);
 
         return (mousePosition, mouseWorldPosition, gridPosition);
+    }
+
+    void UpdateSelectionBox(Vector2 mouseWorldPosition)
+    {
+        SetRectangle(SelectionBox, mouseWorldPosition, lastLeftClickStartedAt);
+    }
+
+    public static void SetRectangle(RectTransform rectangle, Vector2 point0, Vector2 point1)
+    {
+        var left = Mathf.Min(point0.x, point1.x);
+        var bottom = Mathf.Min(point0.y, point1.y);
+        var right = Mathf.Max(point0.x, point1.x);
+        var top = Mathf.Max(point0.y, point1.y);
+
+        rectangle.offsetMin = new Vector2(left, bottom);
+        rectangle.offsetMax = new Vector2(right, top);
+    }
+
+    private void Update()
+    {
+        // If left mouse is down draw rectangle between lastLeftClickStartedAt and current mouseWorldPosition
+        if (mouseHeld)
+        {
+            (_, Vector2 mouseWorldPosition, _) = GetMousePosition();
+            UpdateSelectionBox(mouseWorldPosition);
+
+            // show selection box
+            if (!SelectionBox.gameObject.activeInHierarchy)
+            {
+                SelectionBox.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            // hide selection box
+            if (SelectionBox.gameObject.activeInHierarchy)
+            {
+                SelectionBox.gameObject.SetActive(false);
+            }
+        }
     }
 }

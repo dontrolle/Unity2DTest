@@ -8,7 +8,7 @@
     * ~~Destinations should be on units~~
 * Outline selected units with 2D Shader Graph
 * Sensible placement (offset somehow from one another), when moving more than one unit
-* Show rectangle when drag-selecting
+* ~~Show rectangle when drag-selecting~~
 * Stop movement, on collision
 * ~~Units collide with each other~~
 * Raise event on unit collision

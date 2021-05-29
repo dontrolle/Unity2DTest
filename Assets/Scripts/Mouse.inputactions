@@ -28,14 +28,6 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "LeftClickHold",
-                    "type": "Button",
-                    "id": "e38e1735-6ff8-4530-9ba5-ab85a82eabe5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -69,17 +61,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "LeftClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1be0ce27-922d-4c8a-bb16-bd8a9f3f4b4f",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Hold(duration=0.15)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LeftClickHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
